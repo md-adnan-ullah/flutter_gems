@@ -1,0 +1,47 @@
+name: gems_data_layer
+description: A comprehensive data layer package for Flutter with REST API, CRUD operations, authentication, GetX state management, Hive database, and offline/online support with background sync.
+version: 0.1.0
+homepage: https://github.com/md-adnan-ullah/flutter_gems
+
+author: Md. Adnan Ullah <saadnanullah@gmail.com>
+repository: https://github.com/md-adnan-ullah/flutter_gems
+
+environment:
+  sdk: ^3.0.0
+  flutter: ">=3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # State Management
+  get: ^4.6.6
+  
+  # HTTP & Networking
+  http: ^1.2.0
+  dio: ^5.4.0
+  
+  # Connectivity & Background
+  connectivity_plus: ^5.0.2
+  workmanager: ^0.5.2
+  
+  # Storage & Cache
+  shared_preferences: ^2.2.2
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  
+  # JSON & Serialization
+  json_annotation: ^4.8.1
+  
+  # Utilities
+  path_provider: ^2.1.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  build_runner: ^2.4.7
+  json_serializable: ^6.7.1
+  hive_generator: ^2.0.1
+
+flutter:

@@ -38,9 +38,16 @@ dependencies:
   # Responsive design helper
   flutter_screenutil: ^5.9.0
   
-  # Local package
+  # Local packages
   gems_responsive:
     path: packages/gems_responsive
+  gems_data_layer:
+    path: packages/gems_data_layer
+  
+  # Required for gems_data_layer
+  get: ^4.6.6
+  shared_preferences: ^2.2.2
+  connectivity_plus: ^5.0.2
 
 dev_dependencies:
   flutter_test:

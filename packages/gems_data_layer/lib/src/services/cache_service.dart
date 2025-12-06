@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-/// Cache Service for offline support
+/// Cache Service with Hive + SharedPreferences
 class CacheService {
   final SharedPreferences prefs;
   Box? _cacheBox;
@@ -10,14 +10,14 @@ class CacheService {
 
   CacheService(this.prefs);
 
-  /// Initialize cache (call this before using)
+  /// Initialize cache
   Future<void> initialize() async {
     await Hive.initFlutter();
     _cacheBox = await Hive.openBox(_cacheBoxName);
   }
 
   /// Save data to cache
-  Future<void> save<T>(String key, T data, {Duration? ttl}) async {
+  Future<void> save(String key, dynamic data, {Duration? ttl}) async {
     final cacheData = {
       'data': data,
       'timestamp': DateTime.now().toIso8601String(),
@@ -32,7 +32,7 @@ class CacheService {
   }
 
   /// Get data from cache
-  Future<T?> get<T>(String key, T Function(dynamic)? fromJson) async {
+  T? get<T>(String key, T Function(dynamic)? fromJson) {
     String? cachedJson;
 
     if (_cacheBox != null) {
@@ -51,7 +51,7 @@ class CacheService {
         final timestamp = DateTime.parse(cacheData['timestamp'] as String);
         final ttl = Duration(seconds: cacheData['ttl'] as int);
         if (DateTime.now().difference(timestamp) > ttl) {
-          await delete(key);
+          delete(key);
           return null;
         }
       }
@@ -85,12 +85,14 @@ class CacheService {
   }
 
   /// Check if key exists
-  Future<bool> exists(String key) async {
+  bool exists(String key) {
     if (_cacheBox != null) {
       return _cacheBox!.containsKey(key);
     } else {
       return prefs.containsKey('cache_$key');
     }
   }
-}
 
+  /// Hive box for direct access
+  Box? get box => _cacheBox;
+}

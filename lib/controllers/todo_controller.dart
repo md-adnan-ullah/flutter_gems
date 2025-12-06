@@ -15,7 +15,6 @@ class TodoController extends BaseListController<Todo> {
     setLoading(true);
     final response = await repository.getAll(
       useCache: true,
-      cacheTTL: const Duration(minutes: 5),
     );
     
     if (response.success && response.data != null) {
@@ -26,13 +25,12 @@ class TodoController extends BaseListController<Todo> {
     setLoading(false);
   }
 
-  Future<void> createTodo(String title, {String? description}) async {
+  Future<void> createTodo(String title, {int userId = 1}) async {
     setLoading(true);
     final todo = Todo(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       title: title,
-      description: description,
-      createdAt: DateTime.now(),
+      userId: userId,
     );
 
     final response = await repository.create(
@@ -54,7 +52,6 @@ class TodoController extends BaseListController<Todo> {
     setLoading(true);
     final updatedTodo = todo.copyWith(
       isCompleted: !todo.isCompleted,
-      updatedAt: DateTime.now(),
     );
 
     final response = await repository.update(

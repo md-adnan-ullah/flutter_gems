@@ -10,8 +10,5 @@ class TodoRepository extends BaseRepository<Todo> {
 
   @override
   Todo fromJson(Map<String, dynamic> json) => Todo.fromJson(json);
-
-  @override
-  Map<String, dynamic> toJson(Todo model) => model.toJson();
 }
 

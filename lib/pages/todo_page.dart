@@ -90,35 +90,19 @@ class TodoPage extends StatelessWidget {
 
   void _showAddTodoDialog(BuildContext context, TodoController controller) {
     final titleController = TextEditingController();
-    final descriptionController = TextEditingController();
 
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Add Todo'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: titleController,
-              decoration: const InputDecoration(
-                labelText: 'Title',
-                hintText: 'Enter todo title',
-                border: OutlineInputBorder(),
-              ),
-              autofocus: true,
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: descriptionController,
-              decoration: const InputDecoration(
-                labelText: 'Description (optional)',
-                hintText: 'Enter description',
-                border: OutlineInputBorder(),
-              ),
-              maxLines: 3,
-            ),
-          ],
+        content: TextField(
+          controller: titleController,
+          decoration: const InputDecoration(
+            labelText: 'Title',
+            hintText: 'Enter todo title',
+            border: OutlineInputBorder(),
+          ),
+          autofocus: true,
         ),
         actions: [
           TextButton(
@@ -130,9 +114,6 @@ class TodoPage extends StatelessWidget {
               if (titleController.text.trim().isNotEmpty) {
                 controller.createTodo(
                   titleController.text.trim(),
-                  description: descriptionController.text.trim().isEmpty
-                      ? null
-                      : descriptionController.text.trim(),
                 );
                 Navigator.pop(context);
               }
@@ -174,17 +155,7 @@ class _TodoItem extends StatelessWidget {
             color: todo.isCompleted ? Colors.grey : null,
           ),
         ),
-        subtitle: todo.description != null
-            ? Text(
-                todo.description!,
-                style: TextStyle(
-                  decoration: todo.isCompleted
-                      ? TextDecoration.lineThrough
-                      : TextDecoration.none,
-                  color: todo.isCompleted ? Colors.grey : null,
-                ),
-              )
-            : null,
+        subtitle: Text('User ID: ${todo.userId}'),
         trailing: IconButton(
           icon: const Icon(Icons.delete, color: Colors.red),
           onPressed: () {

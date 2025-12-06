@@ -1,7 +1,4 @@
-/// Flutter Gems Data Layer Package
-///
-/// A comprehensive data layer package with REST API, CRUD operations,
-/// authentication, GetX state management, and offline/online support.
+/// Flutter Gems Data Layer - Minimal & Essential
 library gems_data_layer;
 
 // Services

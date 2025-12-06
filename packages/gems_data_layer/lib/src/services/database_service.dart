@@ -1,7 +1,6 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
-/// Database Service using Hive
-/// Provides local database storage for offline support
+/// Hive Database Service
 class DatabaseService {
   static const String _defaultBoxName = 'gems_database';
   Box? _defaultBox;
@@ -31,13 +30,13 @@ class DatabaseService {
     return _defaultBox!;
   }
 
-  /// Save data to database
+  /// Save data
   Future<void> save<T>(String key, T value, {String? boxName}) async {
     final targetBox = boxName != null ? await openBox(boxName) : box;
     await targetBox.put(key, value);
   }
 
-  /// Get data from database
+  /// Get data
   T? get<T>(String key, {String? boxName}) {
     final targetBox = boxName != null ? _boxes[boxName] : box;
     if (targetBox == null) return null;
@@ -58,7 +57,7 @@ class DatabaseService {
     return targetBox.values;
   }
 
-  /// Get all entries as map
+  /// Get all as map
   Map<dynamic, dynamic> getAll({String? boxName}) {
     final targetBox = boxName != null ? _boxes[boxName] : box;
     if (targetBox == null) return {};
@@ -72,50 +71,19 @@ class DatabaseService {
     return targetBox.containsKey(key);
   }
 
-  /// Delete data from database
+  /// Delete data
   Future<void> delete(String key, {String? boxName}) async {
     final targetBox = boxName != null ? await openBox(boxName) : box;
     await targetBox.delete(key);
   }
 
-  /// Delete multiple keys
-  Future<void> deleteAll(List<String> keys, {String? boxName}) async {
-    final targetBox = boxName != null ? await openBox(boxName) : box;
-    await targetBox.deleteAll(keys);
-  }
-
-  /// Clear all data in a box
+  /// Clear box
   Future<void> clear({String? boxName}) async {
     final targetBox = boxName != null ? await openBox(boxName) : box;
     await targetBox.clear();
   }
 
-  /// Close a box
-  Future<void> closeBox(String boxName) async {
-    if (_boxes.containsKey(boxName)) {
-      await _boxes[boxName]!.close();
-      _boxes.remove(boxName);
-    }
-  }
-
-  /// Close all boxes
-  Future<void> closeAll() async {
-    await Future.wait(_boxes.values.map((box) => box.close()));
-    _boxes.clear();
-    if (_defaultBox != null) {
-      await _defaultBox!.close();
-      _defaultBox = null;
-    }
-  }
-
-  /// Get box size
-  int getBoxSize({String? boxName}) {
-    final targetBox = boxName != null ? _boxes[boxName] : box;
-    if (targetBox == null) return 0;
-    return targetBox.length;
-  }
-
-  /// Register Hive adapter for custom types
+  /// Register Hive adapter
   void registerAdapter<T>(TypeAdapter<T> adapter) {
     if (!Hive.isAdapterRegistered(adapter.typeId)) {
       Hive.registerAdapter(adapter);

@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 import '../pages/home_page.dart';
-import '../pages/nav_shell.dart';
+import 'nav_shell.dart';
 import '../pages/settings_page.dart';
 import '../pages/todo_page.dart';
 

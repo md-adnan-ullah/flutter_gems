@@ -2,7 +2,7 @@ import 'package:gems_data_layer/gems_data_layer.dart';
 import 'package:gems_responsive/gems_responsive.dart';
 import 'package:gems_core/gems_core.dart';
 import 'package:get_it/get_it.dart';
-import '../domain/di/todo/todo_di.dart';
+import '../di/todo/todo_di.dart';
 
 /// App Services using get_it for dependency injection
 class AppServices {

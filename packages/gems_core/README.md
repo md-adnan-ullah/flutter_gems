@@ -1,6 +1,6 @@
 # gems_core
 
-Core utilities for Flutter apps - Result types, error handling, environment configuration, and input validation.
+Core utilities for Flutter apps - Result types, error handling, environment configuration, input validation, extensions, and helpers.
 
 ## Features
 
@@ -8,6 +8,9 @@ Core utilities for Flutter apps - Result types, error handling, environment conf
 - ✅ **Error Handling** - Comprehensive error types (Network, API, Validation, etc.)
 - ✅ **Environment Configuration** - Easy environment management (dev/staging/prod)
 - ✅ **Input Validation** - Reusable validation rules and form validation
+- ✅ **Extensions** - Result and String extensions for common operations
+- ✅ **Helpers** - UseCaseHelper, DIHelper for faster development
+- ✅ **Base Classes** - BaseUseCase, ValidationMixin for use cases
 - ✅ **get_it Integration** - Service locator support
 
 ## Installation
@@ -100,6 +103,82 @@ final formResult = FormValidator.validateForm(
 );
 ```
 
+## Extensions
+
+### Result Extensions
+```dart
+final result = await useCase();
+result.handle(
+  onSuccess: (data) => print(data),
+  onFailure: (error) => print(error.message),
+);
+
+// Get value or null
+final value = result.getOrNull();
+
+// Get value or default
+final value = result.getOrElse(defaultValue);
+```
+
+### String Extensions
+```dart
+'user@example.com'.isValidEmail; // true
+'https://example.com'.isValidUrl; // true
+'hello world'.capitalize; // 'Hello world'
+'long text'.truncate(10); // 'long text...'
+'  '.isBlank; // true
+```
+
+## Helpers
+
+### UseCaseHelper
+```dart
+// Validate fields easily
+final validation = UseCaseHelper.validateStringField(
+  title,
+  fieldName: 'Title',
+  minLength: 1,
+  maxLength: 200,
+);
+
+// Generate unique IDs
+final id = UseCaseHelper.generateId(prefix: 'todo');
+```
+
+### DIHelper
+```dart
+// Register repository
+DIHelper.registerRepository<ITodoRepository>(
+  factory: () => TodoRepository(...),
+);
+
+// Register use case
+DIHelper.registerUseCase<GetTodosUseCase, ITodoRepository>(
+  factory: (repo) => GetTodosUseCase(repo),
+);
+```
+
+## Base Classes
+
+### BaseUseCase & ValidationMixin
+```dart
+class CreateTodoUseCase with ValidationMixin {
+  final ITodoRepository repository;
+  CreateTodoUseCase(this.repository);
+  
+  Future<Result<Todo>> call({required String title}) async {
+    // Use validation mixin
+    final validation = validateString(
+      title,
+      fieldName: 'Title',
+      minLength: 1,
+    );
+    if (validation.isFailure) return Result.failure(validation.error!);
+    // ...
+  }
+}
+```
+
 ## API Reference
 
 ### Result Types
@@ -119,6 +198,14 @@ final formResult = FormValidator.validateForm(
 - `StringValidators` - String validation rules
 - `NumberValidators` - Number validation rules
 - `FormValidator` - Form validation utilities
+
+### Extensions
+- `ResultExtensions<T>` - Result type extensions
+- `StringExtensions` - String utility extensions
+
+### Helpers
+- `UseCaseHelper` - Common use case patterns
+- `DIHelper` - Dependency injection helpers
 
 ## Author
 

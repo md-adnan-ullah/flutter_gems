@@ -17,6 +17,9 @@ dependencies:
   # State Management
   get: ^4.6.6
   
+  # Dependency Injection
+  get_it: ^7.7.0
+  
   # HTTP & Networking
   http: ^1.2.0
   dio: ^5.4.0

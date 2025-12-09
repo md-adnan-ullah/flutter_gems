@@ -1,6 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'dart:convert';
 import 'api_service.dart';
-import 'cache_service.dart';
+import 'database_service.dart';
 import '../utils/api_response.dart';
 
 /// Sync queue item
@@ -39,11 +40,11 @@ class SyncItem {
 /// Simple Sync Service for offline queue
 class SyncService {
   final ApiService apiService;
-  final CacheService cacheService;
+  final DatabaseService databaseService;
   final Connectivity connectivity;
   static const String _syncQueueKey = 'sync_queue';
 
-  SyncService(this.apiService, this.cacheService, this.connectivity);
+  SyncService(this.apiService, this.databaseService, this.connectivity);
 
   /// Initialize (no-op, kept for compatibility)
   Future<void> initialize() async {}
@@ -57,14 +58,16 @@ class SyncService {
 
   /// Get sync queue
   Future<List<SyncItem>> getQueue() async {
-    final queueJson = cacheService.get<List<dynamic>>(
-      _syncQueueKey,
-      (data) => data as List<dynamic>,
-    );
+    final queueJson = databaseService.get<String>(_syncQueueKey);
     if (queueJson == null) return [];
-    return queueJson
-        .map((item) => SyncItem.fromJson(item as Map<String, dynamic>))
-        .toList();
+    try {
+      final queue = jsonDecode(queueJson) as List;
+      return queue
+          .map((item) => SyncItem.fromJson(item as Map<String, dynamic>))
+          .toList();
+    } catch (e) {
+      return [];
+    }
   }
 
   /// Sync queue (call manually when online)
@@ -110,13 +113,13 @@ class SyncService {
   }
 
   Future<void> clearQueue() async {
-    await cacheService.delete(_syncQueueKey);
+    await databaseService.delete(_syncQueueKey);
   }
 
   Future<void> _saveQueue(List<SyncItem> queue) async {
-    await cacheService.save(
+    await databaseService.save(
       _syncQueueKey,
-      queue.map((item) => item.toJson()).toList(),
+      jsonEncode(queue.map((item) => item.toJson()).toList()),
     );
   }
 }

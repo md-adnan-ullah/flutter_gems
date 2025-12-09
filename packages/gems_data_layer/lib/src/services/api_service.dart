@@ -202,14 +202,27 @@ class ApiService {
   /// Handle error response
   ApiResponse<T> _handleError<T>(dynamic error) {
     if (error is DioException) {
-      final statusCode = error.response?.statusCode ?? 500;
-      final message = error.response?.data['message'] ??
-          error.message ??
-          'Network error occurred';
+      final statusCode = error.response?.statusCode;
+      
+      // Handle different error types
+      String message;
+      if (error.type == DioExceptionType.connectionTimeout ||
+          error.type == DioExceptionType.receiveTimeout ||
+          error.type == DioExceptionType.sendTimeout) {
+        message = 'Connection timeout. Please check your internet connection.';
+      } else if (error.type == DioExceptionType.connectionError) {
+        message = 'Connection error. Unable to reach the server.';
+      } else if (error.type == DioExceptionType.badResponse) {
+        message = error.response?.data['message'] ??
+            error.message ??
+            'Server error occurred';
+      } else {
+        message = error.message ?? 'Network error occurred';
+      }
 
       return ApiResponse.error(
         message,
-        statusCode: statusCode,
+        statusCode: statusCode ?? 500,
         errors: error.response?.data['errors'],
       );
     }

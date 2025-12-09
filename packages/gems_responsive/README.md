@@ -120,6 +120,25 @@ Container(
 )
 ```
 
+### Bottom Navigation with Get Router
+
+```dart
+// In a GetMaterialApp.router setup
+class RootShell extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ResponsiveBottomNavShell(
+      initialRoute: '/home',
+      items: const [
+        ResponsiveNavItem(route: '/home', label: 'Home', icon: Icons.home),
+        ResponsiveNavItem(route: '/todos', label: 'Todos', icon: Icons.check_circle),
+        ResponsiveNavItem(route: '/settings', label: 'Settings', icon: Icons.settings),
+      ],
+    );
+  }
+}
+```
+
 ## API Reference
 
 ### Screen Dimensions

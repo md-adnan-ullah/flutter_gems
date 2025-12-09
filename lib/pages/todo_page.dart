@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gems_responsive/gems_responsive.dart';
 import '../controllers/todo_controller.dart';
-import '../models/todo_model.dart';
-import '../repositories/todo_repository.dart';
+import '../models/todo/todo_model.dart';
+import '../domain/usecases/todo/get_todos_usecase.dart';
+import '../domain/usecases/todo/create_todo_usecase.dart';
+import '../domain/usecases/todo/update_todo_usecase.dart';
+import '../domain/usecases/todo/delete_todo_usecase.dart';
+import '../domain/usecases/todo/toggle_todo_usecase.dart';
 import '../services/app_services.dart';
 
 class TodoPage extends StatelessWidget {
@@ -10,18 +15,25 @@ class TodoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Initialize repository and controller
-    final services = AppServices.instance;
-    final repository = TodoRepository(
-      apiService: services.apiService,
-      cacheService: services.cacheService,
-      syncService: services.syncService,
-    );
-    final controller = Get.put(TodoController(repository));
+    // Get use cases from get_it
+    final controller = Get.put(TodoController(
+      getTodosUseCase: AppServices.getIt<GetTodosUseCase>(),
+      createTodoUseCase: AppServices.getIt<CreateTodoUseCase>(),
+      updateTodoUseCase: AppServices.getIt<UpdateTodoUseCase>(),
+      deleteTodoUseCase: AppServices.getIt<DeleteTodoUseCase>(),
+      toggleTodoUseCase: AppServices.getIt<ToggleTodoUseCase>(),
+    ));
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Todo App'),
+        title: Builder(
+          builder: (context) => Text(
+            'Todo App',
+            style: TextStyle(
+              fontSize: ResponsiveHelper.getResponsiveFontSize(context, 20),
+            ),
+          ),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
@@ -43,9 +55,13 @@ class TodoPage extends StatelessWidget {
               children: [
                 Text(
                   controller.errorMessage.value,
-                  style: const TextStyle(color: Colors.red),
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize:
+                        ResponsiveHelper.getResponsiveFontSize(context, 14),
+                  ),
                 ),
-                const SizedBox(height: 16),
+                ResponsiveHelper.getResponsiveSpacing(context, 16),
                 ElevatedButton(
                   onPressed: () => controller.refresh(),
                   child: const Text('Retry'),
@@ -56,11 +72,16 @@ class TodoPage extends StatelessWidget {
         }
 
         if (controller.items.isEmpty) {
-          return const Center(
-            child: Text(
-              'No todos yet.\nTap + to add one!',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16, color: Colors.grey),
+          return Center(
+            child: Builder(
+              builder: (context) => Text(
+                'No todos yet.\nTap + to add one!',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: ResponsiveHelper.getResponsiveFontSize(context, 16),
+                  color: Colors.grey,
+                ),
+              ),
             ),
           );
         }
@@ -68,7 +89,7 @@ class TodoPage extends StatelessWidget {
         return RefreshIndicator(
           onRefresh: () => controller.refresh(),
           child: ListView.builder(
-            padding: const EdgeInsets.all(8),
+            padding: ResponsiveHelper.getResponsivePadding(context, all: 8),
             itemCount: controller.items.length,
             itemBuilder: (context, index) {
               final todo = controller.items[index];
@@ -140,7 +161,11 @@ class _TodoItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+      margin: ResponsiveHelper.getResponsiveMargin(
+        context,
+        vertical: 4,
+        horizontal: 8,
+      ),
       child: ListTile(
         leading: Checkbox(
           value: todo.isCompleted,
@@ -149,13 +174,19 @@ class _TodoItem extends StatelessWidget {
         title: Text(
           todo.title,
           style: TextStyle(
+            fontSize: ResponsiveHelper.getResponsiveFontSize(context, 16),
             decoration: todo.isCompleted
                 ? TextDecoration.lineThrough
                 : TextDecoration.none,
             color: todo.isCompleted ? Colors.grey : null,
           ),
         ),
-        subtitle: Text('User ID: ${todo.userId}'),
+        subtitle: Text(
+          'User ID: ${todo.userId}',
+          style: TextStyle(
+            fontSize: ResponsiveHelper.getResponsiveFontSize(context, 12),
+          ),
+        ),
         trailing: IconButton(
           icon: const Icon(Icons.delete, color: Colors.red),
           onPressed: () {

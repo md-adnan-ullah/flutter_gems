@@ -43,11 +43,16 @@ dependencies:
     path: packages/gems_responsive
   gems_data_layer:
     path: packages/gems_data_layer
+  gems_core:
+    path: packages/gems_core
   
   # Required for gems_data_layer
   get: ^4.6.6
   shared_preferences: ^2.2.2
   connectivity_plus: ^5.0.2
+  
+  # Dependency Injection
+  get_it: ^7.7.0
   
   # Code Generation (for Freezed)
   freezed_annotation: ^2.4.1

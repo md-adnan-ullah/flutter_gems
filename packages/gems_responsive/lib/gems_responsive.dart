@@ -5,3 +5,5 @@
 library gems_responsive;
 
 export 'src/responsive_helper.dart';
+export 'src/responsive_bottom_navigation.dart';
+export 'src/di/service_locator.dart';

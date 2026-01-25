@@ -47,9 +47,8 @@ class AppServices {
     // AppServices.getIt<SyncService>()
     // AppServices.getIt<AuthService>()
     // AppServices.getIt<Environment>()
-    // AppServices.getIt<TodoRepository>()  // For simple CRUD
-    // AppServices.getIt<CreateTodoUseCase>()  // For operations with business logic
-    // AppServices.getIt<ToggleTodoUseCase>()   // For operations with business logic
+    // AppServices.getIt<TodoRepository>()  // Repository handles all CRUD
+    // AppServices.getIt<TodoController>()  // Controller uses repository directly
   }
 
   /// Convenience getters for easy access to services

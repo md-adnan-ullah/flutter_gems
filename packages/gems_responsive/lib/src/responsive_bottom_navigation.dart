@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'responsive_helper.dart';
+import 'widgets/animated_icon.dart';
 
 /// Model for a bottom navigation destination.
 class ResponsiveNavItem {
@@ -205,10 +206,37 @@ class ResponsiveBottomNavigationBar extends StatelessWidget {
           selectedFontSize: fontSize,
           unselectedFontSize: fontSize,
           iconSize: iconSize,
-          items: items.map((item) {
-            Widget iconWidget = Icon(item.icon, size: iconSize);
-            Widget activeIconWidget =
-                Icon(item.activeIcon ?? item.icon, size: iconSize);
+          items: items.asMap().entries.map((entry) {
+            final index = entry.key;
+            final item = entry.value;
+            final isSelected = index == currentIndex;
+
+            Widget iconWidget = GemsAnimatedIcon(
+              icon: isSelected ? (item.activeIcon ?? item.icon) : item.icon,
+              animationType: isSelected
+                  ? AnimationType.scale
+                  : AnimationType.fade,
+              size: iconSize,
+              color: isSelected
+                  ? (selectedColor ?? Theme.of(context).colorScheme.primary)
+                  : (unselectedColor ??
+                      Theme.of(context).textTheme.bodyMedium?.color),
+              duration: const Duration(milliseconds: 200),
+              minScale: isSelected ? 0.9 : 1.0,
+              maxScale: isSelected ? 1.1 : 1.0,
+              repeat: false,
+            );
+
+            Widget activeIconWidget = GemsAnimatedIcon(
+              icon: item.activeIcon ?? item.icon,
+              animationType: AnimationType.scale,
+              size: iconSize,
+              color: selectedColor ?? Theme.of(context).colorScheme.primary,
+              duration: const Duration(milliseconds: 200),
+              minScale: 0.9,
+              maxScale: 1.1,
+              repeat: false,
+            );
 
             if (item.badge != null) {
               iconWidget = Stack(

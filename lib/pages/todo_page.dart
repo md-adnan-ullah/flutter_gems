@@ -4,8 +4,21 @@ import 'package:gems_responsive/gems_responsive.dart';
 import '../controllers/todo_controller.dart';
 import '../models/todo/todo_model.dart';
 
-class TodoPage extends StatelessWidget {
+class TodoPage extends StatefulWidget {
   const TodoPage({super.key});
+
+  @override
+  State<TodoPage> createState() => _TodoPageState();
+}
+
+class _TodoPageState extends State<TodoPage> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,62 +26,181 @@ class TodoPage extends StatelessWidget {
     final controller = Get.find<TodoController>();
 
     return Scaffold(
-      appBar: AppBar(
-        title: Builder(
-          builder: (context) => Text(
-            'Todo App',
-            style: TextStyle(
-              fontSize: ResponsiveHelper.getResponsiveFontSize(context, 20),
+      appBar: ResponsiveAppBar(
+        title: Obx(() {
+          final totalTodos = controller.items.length;
+          final completedTodos = controller.items.where((t) => t.isCompleted).length;
+          return Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Todo App',
+                style: TextStyle(
+                  fontSize: ResponsiveHelper.getResponsiveFontSize(context, 20),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              if (totalTodos > 0) ...[
+                SizedBox(width: ResponsiveHelper.getResponsiveWidth(context, 12)),
+                Container(
+                  padding: ResponsiveHelper.getResponsivePadding(
+                    context,
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(
+                      ResponsiveHelper.getResponsiveRadius(context, 12),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      AnimatedCounter(
+                        value: completedTodos,
+                        duration: const Duration(milliseconds: 500),
+                        style: TextStyle(
+                          fontSize: ResponsiveHelper.getResponsiveFontSize(context, 12),
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                      Text(
+                        '/',
+                        style: TextStyle(
+                          fontSize: ResponsiveHelper.getResponsiveFontSize(context, 12),
+                          color: Colors.grey.shade600,
+                        ),
+                      ),
+                      AnimatedCounter(
+                        value: totalTodos,
+                        duration: const Duration(milliseconds: 500),
+                        style: TextStyle(
+                          fontSize: ResponsiveHelper.getResponsiveFontSize(context, 12),
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey.shade600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ],
+          );
+        }),
+        actions: [
+          Padding(
+            padding: ResponsiveHelper.getResponsivePadding(context, all: 8),
+            child: GemsAnimatedIcon(
+              icon: Icons.refresh,
+              animationType: AnimationType.rotation,
+              onTap: () => controller.refresh(),
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInOut,
             ),
           ),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: () => controller.refresh(),
-            tooltip: 'Refresh',
-          ),
         ],
+        collapseOnScroll: true,
+        scrollController: _scrollController,
       ),
       body: Obx(() {
         if (controller.isLoading.value && controller.items.isEmpty) {
-          return const Center(child: CircularProgressIndicator());
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(
+                3,
+                (index) => Padding(
+                  padding: ResponsiveHelper.getResponsiveMargin(
+                    context,
+                    vertical: 8,
+                  ),
+                  child: ShimmerListItem(
+                    hasAvatar: false,
+                    hasSubtitle: true,
+                    lines: 2,
+                  ),
+                ),
+              ),
+            ),
+          );
         }
 
         if (controller.errorMessage.value.isNotEmpty &&
             controller.items.isEmpty) {
           return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  controller.errorMessage.value,
-                  style: TextStyle(
+            child: FadeSlideTransition(
+              slideDirection: SlideDirection.fromBottom,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GemsAnimatedIcon(
+                    icon: Icons.error_outline,
+                    animationType: AnimationType.pulse,
+                    repeat: true,
                     color: Colors.red,
-                    fontSize:
-                        ResponsiveHelper.getResponsiveFontSize(context, 14),
+                    size: ResponsiveHelper.getResponsiveSize(context, 64),
                   ),
-                ),
-                ResponsiveHelper.getResponsiveSpacing(context, 16),
-                ElevatedButton(
-                  onPressed: () => controller.refresh(),
-                  child: const Text('Retry'),
-                ),
-              ],
+                  ResponsiveHelper.getResponsiveSpacing(context, 16),
+                  Padding(
+                    padding: ResponsiveHelper.getResponsivePadding(
+                      context,
+                      horizontal: 32,
+                    ),
+                    child: Text(
+                      controller.errorMessage.value,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: ResponsiveHelper.getResponsiveFontSize(
+                          context,
+                          14,
+                        ),
+                      ),
+                    ),
+                  ),
+                  ResponsiveHelper.getResponsiveSpacing(context, 24),
+                  AnimatedButton(
+                    onPressed: () => controller.refresh(),
+                    child: const Text('Retry'),
+                  ),
+                ],
+              ),
             ),
           );
         }
 
         if (controller.items.isEmpty) {
           return Center(
-            child: Builder(
-              builder: (context) => Text(
-                'No todos yet.\nTap + to add one!',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: ResponsiveHelper.getResponsiveFontSize(context, 16),
-                  color: Colors.grey,
-                ),
+            child: FadeSlideTransition(
+              slideDirection: SlideDirection.fromBottom,
+              duration: const Duration(milliseconds: 500),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GemsAnimatedIcon(
+                    icon: Icons.check_circle_outline,
+                    animationType: AnimationType.pulse,
+                    repeat: true,
+                    size: ResponsiveHelper.getResponsiveSize(context, 80),
+                    color: Colors.grey.shade400,
+                  ),
+                  ResponsiveHelper.getResponsiveSpacing(context, 24),
+                  Builder(
+                    builder: (context) => Text(
+                      'No todos yet.\nTap + to add one!',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: ResponsiveHelper.getResponsiveFontSize(
+                          context,
+                          16,
+                        ),
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           );
@@ -77,57 +209,86 @@ class TodoPage extends StatelessWidget {
         return RefreshIndicator(
           onRefresh: () => controller.refresh(),
           child: ListView.builder(
+            controller: _scrollController,
             padding: ResponsiveHelper.getResponsivePadding(context, all: 8),
             itemCount: controller.items.length,
             itemBuilder: (context, index) {
               final todo = controller.items[index];
-              return _TodoItem(
-                todo: todo,
-                onToggle: () => controller.toggleTodo(todo),
-                onDelete: () => controller.deleteTodo(todo.id),
+              return AnimatedListItem(
+                key: ValueKey(todo.id),
+                index: index,
+                animationType: ListAnimationType.fadeSlide,
+                slideDirection: ListSlideDirection.fromBottom,
+                delay: const Duration(milliseconds: 50),
+                child: _TodoItem(
+                  key: ValueKey(todo.id),
+                  todo: todo,
+                  onToggle: () => controller.toggleTodo(todo),
+                  onDelete: () => controller.deleteTodo(todo.id),
+                ),
               );
             },
           ),
         );
       }),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _showAddTodoDialog(context, controller),
-        child: const Icon(Icons.add),
+      floatingActionButton: PulseAnimation(
+        repeat: false,
+        child: FloatingActionButton(
+          onPressed: () => _showAddTodoDialog(context, controller),
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }
 
   void _showAddTodoDialog(BuildContext context, TodoController controller) {
     final titleController = TextEditingController();
+    final formKey = GlobalKey<FormState>();
 
-    showDialog(
+    AdaptiveBottomSheet.show(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Add Todo'),
-        content: TextField(
-          controller: titleController,
-          decoration: const InputDecoration(
-            labelText: 'Title',
-            hintText: 'Enter todo title',
-            border: OutlineInputBorder(),
+      title: 'Add Todo',
+      child: ResponsiveForm(
+        formKey: formKey,
+        padding: EdgeInsets.zero,
+        fields: [
+          ResponsiveTextField(
+            label: 'Title',
+            hint: 'Enter todo title',
+            controller: titleController,
+            validator: (value) {
+              if (value == null || value.trim().isEmpty) {
+                return 'Please enter a todo title';
+              }
+              if (value.trim().length > 200) {
+                return 'Title must be less than 200 characters';
+              }
+              return null;
+            },
+            autofocus: true,
+            maxLength: 200,
           ),
-          autofocus: true,
+        ],
+        submitButton: AnimatedButton(
+          onPressed: () {
+            if (formKey.currentState?.validate() ?? false) {
+              controller.createTodo(
+                titleController.text.trim(),
+              );
+              Navigator.pop(context);
+            }
+          },
+          child: const Text('Add Todo'),
+          padding: ResponsiveHelper.getResponsivePadding(
+            context,
+            horizontal: 16,
+            vertical: 12,
+          ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              if (titleController.text.trim().isNotEmpty) {
-                controller.createTodo(
-                  titleController.text.trim(),
-                );
-                Navigator.pop(context);
-              }
-            },
-            child: const Text('Add'),
           ),
         ],
       ),
@@ -141,6 +302,7 @@ class _TodoItem extends StatelessWidget {
   final VoidCallback onDelete;
 
   const _TodoItem({
+    super.key,
     required this.todo,
     required this.onToggle,
     required this.onDelete,
@@ -154,54 +316,89 @@ class _TodoItem extends StatelessWidget {
         vertical: 4,
         horizontal: 8,
       ),
-      child: ListTile(
-        leading: Checkbox(
-          value: todo.isCompleted,
-          onChanged: (_) => onToggle(),
+      elevation: todo.isCompleted ? 1 : 3,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(
+          ResponsiveHelper.getResponsiveRadius(context, 12),
         ),
-        title: Text(
-          todo.title,
-          style: TextStyle(
-            fontSize: ResponsiveHelper.getResponsiveFontSize(context, 16),
-            decoration: todo.isCompleted
-                ? TextDecoration.lineThrough
-                : TextDecoration.none,
-            color: todo.isCompleted ? Colors.grey : null,
+      ),
+      child: ListTile(
+        leading: GestureDetector(
+          onTap: onToggle,
+          child: GemsAnimatedIcon(
+            icon: todo.isCompleted ? Icons.check_circle : Icons.radio_button_unchecked,
+            animationType: AnimationType.scale,
+            color: todo.isCompleted
+                ? Colors.green
+                : Theme.of(context).iconTheme.color,
+            duration: const Duration(milliseconds: 200),
+          ),
+        ),
+        title: FadeTransitionWidget(
+          duration: const Duration(milliseconds: 300),
+          child: Text(
+            todo.title,
+            style: TextStyle(
+              fontSize: ResponsiveHelper.getResponsiveFontSize(context, 16),
+              decoration: todo.isCompleted
+                  ? TextDecoration.lineThrough
+                  : TextDecoration.none,
+              color: todo.isCompleted ? Colors.grey : null,
+              fontWeight: todo.isCompleted ? FontWeight.normal : FontWeight.w500,
+            ),
           ),
         ),
         subtitle: Text(
           'User ID: ${todo.userId}',
           style: TextStyle(
             fontSize: ResponsiveHelper.getResponsiveFontSize(context, 12),
+            color: Colors.grey.shade600,
           ),
         ),
-        trailing: IconButton(
-          icon: const Icon(Icons.delete, color: Colors.red),
-          onPressed: () {
+        trailing: GemsAnimatedIcon(
+          icon: Icons.delete_outline,
+          animationType: AnimationType.pulse,
+          color: Colors.red.shade400,
+          onTap: () {
             showDialog(
               context: context,
-              builder: (context) => AlertDialog(
-                title: const Text('Delete Todo'),
-                content: Text('Are you sure you want to delete "${todo.title}"?'),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text('Cancel'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      onDelete();
-                      Navigator.pop(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
+              builder: (context) => ScaleTransitionWidget(
+                beginScale: 0.8,
+                endScale: 1.0,
+                duration: const Duration(milliseconds: 300),
+                child: AlertDialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                      ResponsiveHelper.getResponsiveRadius(context, 16),
                     ),
-                    child: const Text('Delete'),
                   ),
-                ],
+                  title: const Text('Delete Todo'),
+                  content: Text('Are you sure you want to delete "${todo.title}"?'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Cancel'),
+                    ),
+                    AnimatedButton(
+                      onPressed: () {
+                        onDelete();
+                        Navigator.pop(context);
+                      },
+                      backgroundColor: Colors.red,
+                      foregroundColor: Colors.white,
+                      child: const Text('Delete'),
+                      padding: ResponsiveHelper.getResponsivePadding(
+                        context,
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             );
           },
+          duration: const Duration(milliseconds: 300),
         ),
       ),
     );

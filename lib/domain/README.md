@@ -7,20 +7,17 @@ This directory contains the domain layer organized by features following Clean A
 ```
 domain/
 ├── todo/                          # Todo feature
-│   ├── repositories/              # Repository interfaces
-│   │   └── todo_repository_interface.dart
-│   ├── usecases/                 # Business logic
-│   │   ├── get_todos_usecase.dart
-│   │   ├── create_todo_usecase.dart
-│   │   ├── update_todo_usecase.dart
-│   │   ├── delete_todo_usecase.dart
-│   │   └── toggle_todo_usecase.dart
-│   └── todo_di.dart              # Dependency injection setup
+│   ├── usecases/                 # Business logic (only for complex operations)
+│   │   ├── create_todo_usecase.dart  # Has validation logic
+│   │   └── toggle_todo_usecase.dart  # Has get+update logic
+│   │
+│   └── [Note: Simple CRUD uses repository directly]
+│       - getAllTodos() → repository.getAllTodos()
+│       - updateTodo() → repository.updateTodo()
+│       - deleteTodo() → repository.deleteTodo()
 │
 └── [other_features]/             # Other features follow same pattern
-    ├── repositories/
-    ├── usecases/
-    └── [feature]_di.dart
+    └── usecases/                 # Only for operations with business logic
 ```
 
 ## Principles
@@ -28,16 +25,16 @@ domain/
 1. **Feature-Based**: Each feature has its own folder
 2. **No Dependencies**: Domain layer has NO dependencies on external frameworks
 3. **Pure Business Logic**: Contains only business rules and logic
-4. **Interfaces**: Defines contracts that data layer must implement
-5. **Use Cases**: Single responsibility business operations
+4. **Use Cases Only When Needed**: Use cases only for operations with business logic
+5. **Simple CRUD**: Use repository directly for simple get/update/delete operations
 
 ## Adding a New Feature
 
 1. Create feature folder: `domain/[feature_name]/`
-2. Add repository interface: `repositories/[feature]_repository_interface.dart`
-3. Add use cases: `usecases/[action]_usecase.dart`
-4. Add DI setup: `[feature]_di.dart`
-5. Register in `AppServices.initialize()`: `await setup[Feature]DomainServices()`
+2. Add use cases **only for operations with business logic**: `usecases/[action]_usecase.dart`
+3. Add DI setup: `[feature]_di.dart`
+4. Register in `AppServices.initialize()`: `await setup[Feature]DomainServices()`
+5. Use repository directly for simple CRUD operations
 
 ## Usage
 
@@ -47,9 +44,17 @@ await setupTodoDomainServices();
 ```
 
 ### In Controllers
+
+**For simple CRUD (use repository directly):**
 ```dart
-final useCase = AppServices.getIt<GetTodosUseCase>();
-final result = await useCase();
+final repository = AppServices.getIt<TodoRepository>();
+final result = await repository.getAllTodos();
+```
+
+**For operations with business logic (use use case):**
+```dart
+final useCase = AppServices.getIt<CreateTodoUseCase>();
+final result = await useCase(title: 'New Todo');
 ```
 
 ## Benefits

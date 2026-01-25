@@ -2,19 +2,18 @@ import 'package:get_it/get_it.dart';
 import 'package:gems_data_layer/gems_data_layer.dart';
 import 'package:gems_core/gems_core.dart';
 import '../../repositories/todo_repository.dart';
-import '../../domain/repositories/todo/todo_repository_interface.dart';
-import '../../domain/usecases/todo/get_todos_usecase.dart';
 import '../../domain/usecases/todo/create_todo_usecase.dart';
-import '../../domain/usecases/todo/update_todo_usecase.dart';
-import '../../domain/usecases/todo/delete_todo_usecase.dart';
 import '../../domain/usecases/todo/toggle_todo_usecase.dart';
+import '../../controllers/todo_controller.dart';
 
-/// Setup Todo domain services (simplified with DIHelper)
+/// Setup Todo domain services
+/// Simple CRUD operations use repository directly
+/// Use cases only for operations with business logic
 Future<void> setupTodoDomainServices() async {
   final getIt = GetIt.instance;
   
-  // Register repository
-  DIHelper.registerRepository<ITodoRepository>(
+  // Register repository (used directly for simple CRUD)
+  DIHelper.registerRepository<TodoRepository>(
     factory: () => TodoRepository(
       apiService: getIt<ApiService>(),
       databaseService: getIt<DatabaseService>(),
@@ -22,25 +21,22 @@ Future<void> setupTodoDomainServices() async {
     ),
   );
 
-  // Register use cases
-  DIHelper.registerUseCase<GetTodosUseCase, ITodoRepository>(
-    factory: (repo) => GetTodosUseCase(repo),
-  );
-
-  DIHelper.registerUseCase<CreateTodoUseCase, ITodoRepository>(
+  // Register use cases (only for operations with business logic)
+  DIHelper.registerUseCase<CreateTodoUseCase, TodoRepository>(
     factory: (repo) => CreateTodoUseCase(repo),
   );
 
-  DIHelper.registerUseCase<UpdateTodoUseCase, ITodoRepository>(
-    factory: (repo) => UpdateTodoUseCase(repo),
-  );
-
-  DIHelper.registerUseCase<DeleteTodoUseCase, ITodoRepository>(
-    factory: (repo) => DeleteTodoUseCase(repo),
-  );
-
-  DIHelper.registerUseCase<ToggleTodoUseCase, ITodoRepository>(
+  DIHelper.registerUseCase<ToggleTodoUseCase, TodoRepository>(
     factory: (repo) => ToggleTodoUseCase(repo),
+  );
+
+  // Register controller using DIHelper
+  DIHelper.registerController<TodoController>(
+    factory: () => TodoController(
+      repository: getIt<TodoRepository>(),
+      createTodoUseCase: getIt<CreateTodoUseCase>(),
+      toggleTodoUseCase: getIt<ToggleTodoUseCase>(),
+    ),
   );
 }
 

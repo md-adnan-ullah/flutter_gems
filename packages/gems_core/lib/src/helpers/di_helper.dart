@@ -33,5 +33,20 @@ class DIHelper {
       getIt.registerSingleton<U>(factory(getIt<R>()));
     }
   }
+
+  /// Register controller with dependencies
+  static void registerController<T extends Object>({
+    required T Function() factory,
+    bool lazy = true,
+  }) {
+    final getIt = GetIt.instance;
+    if (getIt.isRegistered<T>()) return;
+
+    if (lazy) {
+      getIt.registerLazySingleton<T>(factory);
+    } else {
+      getIt.registerSingleton<T>(factory());
+    }
+  }
 }
 

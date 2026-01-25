@@ -3,26 +3,14 @@ import 'package:get/get.dart';
 import 'package:gems_responsive/gems_responsive.dart';
 import '../controllers/todo_controller.dart';
 import '../models/todo/todo_model.dart';
-import '../domain/usecases/todo/get_todos_usecase.dart';
-import '../domain/usecases/todo/create_todo_usecase.dart';
-import '../domain/usecases/todo/update_todo_usecase.dart';
-import '../domain/usecases/todo/delete_todo_usecase.dart';
-import '../domain/usecases/todo/toggle_todo_usecase.dart';
-import '../services/app_services.dart';
 
 class TodoPage extends StatelessWidget {
   const TodoPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Get use cases from get_it
-    final controller = Get.put(TodoController(
-      getTodosUseCase: AppServices.getIt<GetTodosUseCase>(),
-      createTodoUseCase: AppServices.getIt<CreateTodoUseCase>(),
-      updateTodoUseCase: AppServices.getIt<UpdateTodoUseCase>(),
-      deleteTodoUseCase: AppServices.getIt<DeleteTodoUseCase>(),
-      toggleTodoUseCase: AppServices.getIt<ToggleTodoUseCase>(),
-    ));
+    // Controller is injected via GetX binding in routes
+    final controller = Get.find<TodoController>();
 
     return Scaffold(
       appBar: AppBar(

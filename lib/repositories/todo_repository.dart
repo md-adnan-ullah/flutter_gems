@@ -1,19 +1,18 @@
 import 'package:gems_data_layer/gems_data_layer.dart';
 import 'package:gems_core/gems_core.dart';
 import '../models/todo/todo_model.dart';
-import '../domain/repositories/todo/todo_repository_interface.dart';
+import '../utils/api_endpoints.dart';
 
-class TodoRepository extends BaseRepository<Todo> implements ITodoRepository {
+class TodoRepository extends BaseRepository<Todo> {
   TodoRepository({
     required super.apiService,
     required super.databaseService,
     required super.syncService,
-  }) : super(baseEndpoint: '/todos');
+  }) : super(baseEndpoint: ApiEndpoints.todos);
 
   @override
   Todo fromJson(Map<String, dynamic> json) => Todo.fromJson(json);
 
-  @override
   Future<Result<List<Todo>>> getAllTodos() async {
     try {
       final response = await getAll(useCache: true);
@@ -26,7 +25,6 @@ class TodoRepository extends BaseRepository<Todo> implements ITodoRepository {
     }
   }
 
-  @override
   Future<Result<Todo>> getTodoById(String id) async {
     try {
       final response = await getById(id, useCache: true);
@@ -39,7 +37,6 @@ class TodoRepository extends BaseRepository<Todo> implements ITodoRepository {
     }
   }
 
-  @override
   Future<Result<Todo>> createTodo(Todo todo) async {
     try {
       final response = await create(todo, syncOffline: true);
@@ -52,7 +49,6 @@ class TodoRepository extends BaseRepository<Todo> implements ITodoRepository {
     }
   }
 
-  @override
   Future<Result<Todo>> updateTodo(Todo todo) async {
     try {
       final response = await update(todo.id, todo, syncOffline: true);
@@ -65,7 +61,6 @@ class TodoRepository extends BaseRepository<Todo> implements ITodoRepository {
     }
   }
 
-  @override
   Future<Result<void>> deleteTodo(String id) async {
     try {
       final response = await delete(id, syncOffline: true);

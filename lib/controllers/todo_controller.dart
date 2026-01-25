@@ -1,24 +1,18 @@
 import 'package:gems_data_layer/gems_data_layer.dart';
 import 'package:gems_core/gems_core.dart';
-import '../domain/usecases/todo/get_todos_usecase.dart';
 import '../domain/usecases/todo/create_todo_usecase.dart';
-import '../domain/usecases/todo/update_todo_usecase.dart';
-import '../domain/usecases/todo/delete_todo_usecase.dart';
 import '../domain/usecases/todo/toggle_todo_usecase.dart';
 import '../models/todo/todo_model.dart';
+import '../repositories/todo_repository.dart';
 
 class TodoController extends BaseListController<Todo> with BaseControllerMixin<Todo> {
-  final GetTodosUseCase getTodosUseCase;
-  final CreateTodoUseCase createTodoUseCase;
-  final UpdateTodoUseCase updateTodoUseCase;
-  final DeleteTodoUseCase deleteTodoUseCase;
-  final ToggleTodoUseCase toggleTodoUseCase;
+  final TodoRepository repository;
+  final CreateTodoUseCase createTodoUseCase; // Has validation logic
+  final ToggleTodoUseCase toggleTodoUseCase; // Has business logic
 
   TodoController({
-    required this.getTodosUseCase,
+    required this.repository,
     required this.createTodoUseCase,
-    required this.updateTodoUseCase,
-    required this.deleteTodoUseCase,
     required this.toggleTodoUseCase,
   }) {
     loadItems();
@@ -26,7 +20,7 @@ class TodoController extends BaseListController<Todo> with BaseControllerMixin<T
 
   @override
   Future<void> loadItems() async {
-    await handleListResult(() => getTodosUseCase());
+    await handleListResult(() => repository.getAllTodos());
   }
 
   Future<void> createTodo(String title, {int userId = 1}) async {
@@ -39,9 +33,8 @@ class TodoController extends BaseListController<Todo> with BaseControllerMixin<T
   }
 
   Future<void> updateTodo(Todo todo) async {
-    final updated = todo.copyWith(isCompleted: !todo.isCompleted);
     await handleResult(
-      () => updateTodoUseCase(updated),
+      () => repository.updateTodo(todo),
       onSuccess: (todo) {
         final index = items.indexWhere((t) => t.id == todo.id);
         if (index != -1) items[index] = todo;
@@ -53,7 +46,7 @@ class TodoController extends BaseListController<Todo> with BaseControllerMixin<T
 
   Future<void> deleteTodo(String id) async {
     await handleResult(
-      () => deleteTodoUseCase(id),
+      () => repository.deleteTodo(id),
       onSuccess: (_) => items.removeWhere((t) => t.id == id),
       showSuccessMessage: true,
       successMessage: 'Todo deleted successfully',

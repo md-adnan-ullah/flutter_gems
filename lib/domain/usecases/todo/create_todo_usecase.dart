@@ -1,9 +1,9 @@
 import 'package:gems_core/gems_core.dart';
 import '../../../models/todo/todo_model.dart';
-import '../../repositories/todo/todo_repository_interface.dart';
+import '../../../repositories/todo_repository.dart';
 
 class CreateTodoUseCase with ValidationMixin {
-  final ITodoRepository repository;
+  final TodoRepository repository;
   CreateTodoUseCase(this.repository);
   
   Future<Result<Todo>> call({required String title, int userId = 1}) async {

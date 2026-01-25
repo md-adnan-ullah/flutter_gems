@@ -1,9 +1,9 @@
 import 'package:gems_core/gems_core.dart';
 import '../../../models/todo/todo_model.dart';
-import '../../repositories/todo/todo_repository_interface.dart';
+import '../../../repositories/todo_repository.dart';
 
 class ToggleTodoUseCase {
-  final ITodoRepository repository;
+  final TodoRepository repository;
   ToggleTodoUseCase(this.repository);
   
   Future<Result<Todo>> call(String id) async {

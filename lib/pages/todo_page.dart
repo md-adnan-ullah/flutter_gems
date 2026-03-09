@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:gems_responsive/gems_responsive.dart';
 import '../controllers/todo_controller.dart';
 import '../models/todo/todo_model.dart';
+import '../utils/app_theme.dart';
 
 class TodoPage extends StatefulWidget {
   const TodoPage({super.key});
@@ -38,6 +39,7 @@ class _TodoPageState extends State<TodoPage> {
                 style: TextStyle(
                   fontSize: ResponsiveHelper.getResponsiveFontSize(context, 20),
                   fontWeight: FontWeight.bold,
+                  color: AppTheme.goldPrimary,
                 ),
               ),
               if (totalTodos > 0) ...[
@@ -49,7 +51,7 @@ class _TodoPageState extends State<TodoPage> {
                     vertical: 4,
                   ),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                    color: AppTheme.goldPrimary.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(
                       ResponsiveHelper.getResponsiveRadius(context, 12),
                     ),
@@ -63,14 +65,14 @@ class _TodoPageState extends State<TodoPage> {
                         style: TextStyle(
                           fontSize: ResponsiveHelper.getResponsiveFontSize(context, 12),
                           fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.primary,
+                          color: AppTheme.goldPrimary,
                         ),
                       ),
                       Text(
                         '/',
                         style: TextStyle(
                           fontSize: ResponsiveHelper.getResponsiveFontSize(context, 12),
-                          color: Colors.grey.shade600,
+                          color: AppTheme.textSecondary,
                         ),
                       ),
                       AnimatedCounter(
@@ -139,7 +141,7 @@ class _TodoPageState extends State<TodoPage> {
                     icon: Icons.error_outline,
                     animationType: AnimationType.pulse,
                     repeat: true,
-                    color: Colors.red,
+                    color: AppTheme.error,
                     size: ResponsiveHelper.getResponsiveSize(context, 64),
                   ),
                   ResponsiveHelper.getResponsiveSpacing(context, 16),
@@ -152,7 +154,7 @@ class _TodoPageState extends State<TodoPage> {
                       controller.errorMessage.value,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Colors.red,
+                        color: AppTheme.error,
                         fontSize: ResponsiveHelper.getResponsiveFontSize(
                           context,
                           14,
@@ -184,7 +186,7 @@ class _TodoPageState extends State<TodoPage> {
                     animationType: AnimationType.pulse,
                     repeat: true,
                     size: ResponsiveHelper.getResponsiveSize(context, 80),
-                    color: Colors.grey.shade400,
+                    color: AppTheme.goldPrimary,
                   ),
                   ResponsiveHelper.getResponsiveSpacing(context, 24),
                   Builder(
@@ -196,7 +198,7 @@ class _TodoPageState extends State<TodoPage> {
                           context,
                           16,
                         ),
-                        color: Colors.grey,
+                        color: AppTheme.textSecondary,
                       ),
                     ),
                   ),
@@ -329,8 +331,8 @@ class _TodoItem extends StatelessWidget {
             icon: todo.isCompleted ? Icons.check_circle : Icons.radio_button_unchecked,
             animationType: AnimationType.scale,
             color: todo.isCompleted
-                ? Colors.green
-                : Theme.of(context).iconTheme.color,
+                ? AppTheme.success
+                : AppTheme.goldPrimary,
             duration: const Duration(milliseconds: 200),
           ),
         ),
@@ -343,7 +345,7 @@ class _TodoItem extends StatelessWidget {
               decoration: todo.isCompleted
                   ? TextDecoration.lineThrough
                   : TextDecoration.none,
-              color: todo.isCompleted ? Colors.grey : null,
+              color: todo.isCompleted ? AppTheme.textTertiary : AppTheme.textPrimary,
               fontWeight: todo.isCompleted ? FontWeight.normal : FontWeight.w500,
             ),
           ),
@@ -352,13 +354,13 @@ class _TodoItem extends StatelessWidget {
           'User ID: ${todo.userId}',
           style: TextStyle(
             fontSize: ResponsiveHelper.getResponsiveFontSize(context, 12),
-            color: Colors.grey.shade600,
+            color: AppTheme.textSecondary,
           ),
         ),
         trailing: GemsAnimatedIcon(
           icon: Icons.delete_outline,
           animationType: AnimationType.pulse,
-          color: Colors.red.shade400,
+          color: AppTheme.error,
           onTap: () {
             showDialog(
               context: context,
@@ -384,8 +386,8 @@ class _TodoItem extends StatelessWidget {
                         onDelete();
                         Navigator.pop(context);
                       },
-                      backgroundColor: Colors.red,
-                      foregroundColor: Colors.white,
+                      backgroundColor: AppTheme.error,
+                      foregroundColor: AppTheme.textPrimary,
                       child: const Text('Delete'),
                       padding: ResponsiveHelper.getResponsivePadding(
                         context,

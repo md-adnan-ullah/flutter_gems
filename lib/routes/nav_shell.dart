@@ -18,11 +18,29 @@ class NavShell extends StatelessWidget {
           activeIcon: Icons.home,
         ),
         ResponsiveNavItem(
-          route: AppRoutes.todos,
-          label: 'Todos',
-          icon: Icons.check_circle_outline,
-          activeIcon: Icons.check_circle,
+          route: AppRoutes.products,
+          label: 'Products',
+          icon: Icons.shopping_bag_outlined,
+          activeIcon: Icons.shopping_bag,
         ),
+        ResponsiveNavItem(
+          route: AppRoutes.cart,
+          label: 'Cart',
+          icon: Icons.shopping_cart_outlined,
+          activeIcon: Icons.shopping_cart,
+        ),
+        ResponsiveNavItem(
+          route: AppRoutes.favorites,
+          label: 'Favorites',
+          icon: Icons.favorite_border,
+          activeIcon: Icons.favorite,
+        ),
+        // ResponsiveNavItem(
+        //   route: AppRoutes.todos,
+        //   label: 'Todos',
+        //   icon: Icons.check_circle_outline,
+        //   activeIcon: Icons.check_circle,
+        // ),
         ResponsiveNavItem(
           route: AppRoutes.settings,
           label: 'Settings',

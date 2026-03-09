@@ -6,6 +6,11 @@ import 'package:gems_core/gems_core.dart';
 
 import 'routes/app_pages.dart';
 import 'services/app_services.dart';
+import 'utils/app_theme.dart';
+import 'controllers/product_controller.dart';
+import 'controllers/cart_controller.dart';
+import 'controllers/favorites_controller.dart';
+import 'controllers/search_controller.dart' as search;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,11 +20,17 @@ void main() async {
   await appServices.initialize(
     environmentMode: EnvironmentMode.development,
     appConfig: AppConfig(
-      apiBaseUrl: 'https://jsonplaceholder.typicode.com',
+      apiBaseUrl: 'https://fakestoreapi.com',
       enableLogging: true,
       apiTimeout: const Duration(seconds: 30),
     ),
   );
+
+  // Pre-initialize Controllers to ensure they're always available
+  Get.put(AppServices.getIt<ProductController>(), permanent: true);
+  Get.put(AppServices.getIt<CartController>(), permanent: true);
+  Get.put(AppServices.getIt<FavoritesController>(), permanent: true);
+  Get.put(AppServices.getIt<search.ProductSearchController>(), permanent: true);
 
   runApp(const FlutterGemsApp());
 }
@@ -37,11 +48,8 @@ class FlutterGemsApp extends StatelessWidget {
       minTextAdapt: true,
       builder: (context, child) {
         return GetMaterialApp.router(
-          title: 'Flutter Gems - Todo Example',
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            useMaterial3: true,
-          ),
+          title: 'ShowProd - Product Showcase',
+          theme: AppTheme.darkTheme,
           getPages: AppPages.routes,
           routerDelegate: GetDelegate(),
           routeInformationParser: GetInformationParser(

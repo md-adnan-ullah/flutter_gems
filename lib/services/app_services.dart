@@ -3,6 +3,10 @@ import 'package:gems_responsive/gems_responsive.dart';
 import 'package:gems_core/gems_core.dart';
 import 'package:get_it/get_it.dart';
 import '../di/todo/todo_di.dart';
+import '../di/product/product_di.dart';
+import '../di/cart/cart_di.dart';
+import '../di/favorites/favorites_di.dart';
+import '../di/search/search_di.dart';
 
 /// App Services using get_it for dependency injection
 class AppServices {
@@ -40,6 +44,10 @@ class AppServices {
 
     // Setup domain layer services (feature-wise)
     await setupTodoDomainServices();
+    await setupProductDomainServices();
+    await setupCartDomainServices();
+    setupFavoritesDomainServices();
+    setupSearchDomainServices();
 
     // All services are now registered in get_it and can be accessed via:
     // AppServices.getIt<ApiService>()
@@ -49,6 +57,10 @@ class AppServices {
     // AppServices.getIt<Environment>()
     // AppServices.getIt<TodoRepository>()  // Repository handles all CRUD
     // AppServices.getIt<TodoController>()  // Controller uses repository directly
+    // AppServices.getIt<ProductRepository>()  // Repository handles all CRUD
+    // AppServices.getIt<ProductController>()  // Controller uses repository directly
+    // AppServices.getIt<CartRepository>()  // Repository handles all CRUD
+    // AppServices.getIt<CartController>()  // Controller uses repository directly
   }
 
   /// Convenience getters for easy access to services

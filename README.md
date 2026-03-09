@@ -1,16 +1,7 @@
-# flutter_gems
+#Usage guide
 
-A new Flutter project.
+Just command this line in your project terminal
+git submodule add https://github.com/md-adnan-ullah/flutter_gems.git flutter_gems
+git submodule update --init --recursive
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+And just update the depencencies from pubspec.yaml from flutter gems

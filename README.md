@@ -15,8 +15,9 @@ OPTION 2:
 rm -rf flutter_gems
 git clone -b develop --single-branch https://github.com/md-adnan-ullah/flutter_gems.git flutter_gems
 rm -rf flutter_gems/.git
+git add flutter_gems
+git commit -m "chore: update flutter_gems to latest develop"
 
-And just update the depencencies from pubspec.yaml from flutter gems
 
 A comprehensive Flutter package collection providing responsive UI widgets, core utilities, and data layer functionality.
 

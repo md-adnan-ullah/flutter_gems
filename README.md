@@ -2,10 +2,13 @@
 
 #Usage guide
 r## Option 1
-Just command this line in your project terminal git submodule add https://github.com/md-adnan-ullah/flutter_gems.git flutter_gems git submodule update --init --recursive
+
+```bash
+Just command this line in your project terminal
+git submodule add https://github.com/md-adnan-ullah/flutter_gems.git flutter_gems 
+git submodule update --init --recursive
 
 reuse:
-
 git submodule add -f -b develop https://github.com/md-adnan-ullah/flutter_gems.git flutter_gems
 git submodule update --init --recursive
 git submodule update --remote --merge

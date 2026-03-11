@@ -1,6 +1,7 @@
 # Flutter Gems
 
 #Usage guide
+OPTION 1:
 Just command this line in your project terminal git submodule add https://github.com/md-adnan-ullah/flutter_gems.git flutter_gems git submodule update --init --recursive
 
 reuse:
@@ -8,6 +9,12 @@ reuse:
 git submodule add -f -b develop https://github.com/md-adnan-ullah/flutter_gems.git flutter_gems
 git submodule update --init --recursive
 git submodule update --remote --merge
+
+
+OPTION 2:
+rm -rf flutter_gems
+git clone -b develop --single-branch https://github.com/md-adnan-ullah/flutter_gems.git flutter_gems
+rm -rf flutter_gems/.git
 
 And just update the depencencies from pubspec.yaml from flutter gems
 

@@ -1,5 +1,29 @@
 # Flutter Gems
 
+#Usage guide
+r## Option 1
+
+```bash
+Just command this line in your project terminal
+git submodule add https://github.com/md-adnan-ullah/flutter_gems.git flutter_gems 
+git submodule update --init --recursive
+
+reuse:
+git submodule add -f -b develop https://github.com/md-adnan-ullah/flutter_gems.git flutter_gems
+git submodule update --init --recursive
+git submodule update --remote --merge
+
+
+r## Option 2
+
+```bash
+rm -rf flutter_gems
+git clone -b develop --single-branch https://github.com/md-adnan-ullah/flutter_gems.git flutter_gems
+rm -rf flutter_gems/.git
+git add flutter_gems
+git commit -m "chore: update flutter_gems to latest develop"
+
+
 A comprehensive Flutter package collection providing responsive UI widgets, core utilities, and data layer functionality.
 
 ## 📦 Packages

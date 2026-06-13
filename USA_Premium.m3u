@@ -1,16 +1,96 @@
-#EXTM3U
-
-#EXTINF:-1 tvg-name="Yes Network" group-title="USA",Yes Network
-http://iptv4.premium-stv.com:8000/live/SOURCEUSAPR01/Y3puYbhjNn/1377.ts
-
-#EXTINF:-1 tvg-name="WWE Network HD" group-title="USA",WWE Network HD
-http://iptv4.premium-stv.com:8000/live/SOURCEUSAPR01/Y3puYbhjNn/1382.ts
-
-#EXTINF:-1 tvg-name="Willow Cricket HD" group-title="USA",Willow Cricket HD
-http://iptv4.premium-stv.com:8000/live/SOURCEUSAPR01/Y3puYbhjNn/1383.ts
-
-#EXTINF:-1 tvg-name="Weather Channel" group-title="USA",Weather Channel
-http://iptv4.premium-stv.com:8000/live/SOURCEUSAPR01/Y3puYbhjNn/1384.ts
-
-#EXTINF:-1 tvg-name="VH1 HD" group-title="USA",VH1 HD
-http://iptv4.premium-stv.com:8000/live/SOURCEUSAPR01/Y3puYbhjNn/1386.ts
+#EXTINF:-1, USA Discovery HD
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/1428.ts
+#EXTINF:-1, USA DESTINATION AMERICA FHD
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/1447.ts
+#EXTINF:-1, Destination America
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/1385.ts
+#EXTINF:-1, USA|CW HD
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/1429.ts
+#EXTINF:-1, USA|Crime Investigation Discovery FHD
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/1475.ts
+#EXTINF:-1, USA|Comedy Central
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/1430.ts
+#EXTINF:-1, USA|CNN HD
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/1431.ts
+#EXTINF:-1, USA|CNBC
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/1432.ts
+#EXTINF:-1, USA|Cinemax FHD
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/1476.ts
+#EXTINF:-1, USA|CBS Sports Network HD
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/1372.ts
+#EXTINF:-1, USA|CBS HD
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/1434.ts
+#EXTINF:-1, USA|CBS FHD
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/1477.ts
+#EXTINF:-1, USA|Cartoon Network
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/1435.ts
+#EXTINF:-1, USA Bravo FHD
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/1478.ts
+#EXTINF:-1, USA Bloomberg
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/1436.ts
+#EXTINF:-1, USA|Big Ten Network BTN
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/1436.ts
+#EXTINF:-1, USA|BET HD (Test)
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/1437.ts
+#EXTINF:-1, USA|Bein Sports HD
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/1380.ts
+#EXTINF:-1, USA|Bein Sports FHD
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/1479.ts
+#EXTINF:-1, USA ATT Sportsnet SW
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/1378.ts
+#EXTINF:-1, USA Animal Planet FHD
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/1480.ts
+#EXTINF:-1, USA|Animal Planet
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/1438.ts
+#EXTINF:-1, American Hero Channel HD
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/1439.ts
+#EXTINF:-1, USA|AMC HD
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/1440.ts
+#EXTINF:-1, USA|Action Max HD
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/1441.ts
+#EXTINF:-1, USA|Action Max FHD
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/1481.ts
+#EXTINF:-1, USA|ACC Network HD
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/1403.ts
+#EXTINF:-1, USA ABC News
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/1443.ts
+#EXTINF:-1, USA|ABC
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/1442.ts
+#EXTINF:-1, USA A&E FHD
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/1445.ts
+#EXTINF:-1, USA UFC TV
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/1446.ts
+#EXTINF:-1, USA Tennis Channel HD
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/1448.ts
+#EXTINF:-1, USA NHL HD
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/398.ts
+#EXTINF:-1, USA NFL NETWORK HD
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/399.ts
+#EXTINF:-1, USA NEW ENGLAND SPORT NETWORK
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/393.ts
+#EXTINF:-1, USA NBA
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/394.ts
+#EXTINF:-1, USA MLB HD
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/396.ts
+#EXTINF:-1, USA FOX SPORT 2HD
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/388.ts
+#EXTINF:-1, USA FOX SPORT 1HD
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/382.ts
+#EXTINF:-1, USA FOX SPORTS
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/384.ts
+#EXTINF:-1, USA ESPNEWS
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/385.ts
+#EXTINF:-1, USA ESPN U HD
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/390.ts
+#EXTINF:-1, USA ESPN Deportes
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/389.ts
+#EXTINF:-1, USA ESPN 2HD
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/387.ts
+#EXTINF:-1, USA ESPN 1HD
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/386.ts
+#EXTINF:-1, USA CBS SPORTS NET
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/392.ts
+#EXTINF:-1, USA BTN
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/391.ts
+#EXTINF:-1, USA beINSPORT US
+http://iptv4.premium-stv.com:8000/live/SOURCEUSAPRO1/Y3puYbhjNn/381.ts
